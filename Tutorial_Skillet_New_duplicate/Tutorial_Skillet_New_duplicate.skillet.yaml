@@ -1,0 +1,174 @@
+name: Tutorial_Skillet_New_duplicate
+label: Tutorial Skillet
+description: Skillet Generated from 10.70.221.157 using skillet_baseline.xml and skilletbuilder.xml
+type: panos
+labels:
+    collection: Unknown
+variables:
+-   name: edl_description
+    description: edl_description
+    type_hint: text
+    default: ''
+-   name: edl_url
+    description: edl_url
+    type_hint: text
+    default: ''
+-   name: edl_name
+    description: edl_name
+    type_hint: text
+    default: ''
+-   name: tag_name
+    description: tag_name
+    type_hint: text
+    default: ''
+-   name: tag_color
+    description: tag_color
+    type_hint: text
+    default: ''
+-   name: tag_description
+    description: tag_description
+    type_hint: text
+    default: ''
+snippets:
+-   name: device-telemetry-794271
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/deviceconfig/system
+    element: |-
+        <device-telemetry>
+                    <device-health-performance>yes</device-health-performance>
+                    <product-usage>yes</product-usage>
+                    <threat-prevention>yes</threat-prevention>
+                    <region>Americas</region>
+                  </device-telemetry>
+    cmd: set
+    file: ''
+    template_title: ''
+-   name: entry-258370
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
+    element: <entry name="default"/>
+    cmd: set
+    file: ''
+    template_title: ''
+-   name: user-id-collector-289096
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]
+    element: |-
+        <user-id-collector>
+                    <setting/>
+                  </user-id-collector>
+    cmd: set
+    file: ''
+    template_title: ''
+-   name: external-list-820753
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]
+    element: |-
+        <external-list>
+                    <entry name="{{ edl_name }}">
+                      <type>
+                        <ip>
+                          <recurring>
+                            <five-minute/>
+                          </recurring>
+                          <url>{{ edl_url }}</url>
+                          <description>{{ edl_description }}</description>
+                        </ip>
+                      </type>
+                    </entry>
+                  </external-list>
+    cmd: set
+    file: ''
+    template_title: ''
+-   name: tag-141361
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]
+    element: |-
+        <tag>
+                    <entry name="{{ tag_name }}">
+                      <color>{{ tag_color }}</color>
+                      <comments>{{ tag_description }}</comments>
+                    </entry>
+                  </tag>
+    cmd: set
+    file: ''
+    template_title: ''
+-   name: security-853219
+    xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]/rulebase
+    element: |-
+        <security>
+                      <rules>
+                        <entry name="outbound-edl">
+                          <to>
+                            <member>any</member>
+                          </to>
+                          <from>
+                            <member>any</member>
+                          </from>
+                          <source>
+                            <member>any</member>
+                          </source>
+                          <destination>
+                            <member>{{ edl_name }}</member>
+                          </destination>
+                          <source-user>
+                            <member>any</member>
+                          </source-user>
+                          <category>
+                            <member>any</member>
+                          </category>
+                          <application>
+                            <member>any</member>
+                          </application>
+                          <service>
+                            <member>application-default</member>
+                          </service>
+                          <source-hip>
+                            <member>any</member>
+                          </source-hip>
+                          <destination-hip>
+                            <member>any</member>
+                          </destination-hip>
+                          <tag>
+                            <member>{{ tag_name }}</member>
+                          </tag>
+                          <action>deny</action>
+                          <description>outbound EDL IP block rule </description>
+                        </entry>
+                        <entry name="inbound-edl">
+                          <to>
+                            <member>any</member>
+                          </to>
+                          <from>
+                            <member>any</member>
+                          </from>
+                          <source>
+                            <member>{{ edl_name }}</member>
+                          </source>
+                          <destination>
+                            <member>any</member>
+                          </destination>
+                          <source-user>
+                            <member>any</member>
+                          </source-user>
+                          <category>
+                            <member>any</member>
+                          </category>
+                          <application>
+                            <member>any</member>
+                          </application>
+                          <service>
+                            <member>application-default</member>
+                          </service>
+                          <source-hip>
+                            <member>any</member>
+                          </source-hip>
+                          <destination-hip>
+                            <member>any</member>
+                          </destination-hip>
+                          <tag>
+                            <member>{{ tag_name }}</member>
+                          </tag>
+                          <action>deny</action>
+                          <description>inbound EDL IP block rule </description>
+                        </entry>
+                      </rules>
+                    </security>
+    cmd: set
+    file: ''
+    template_title: ''
